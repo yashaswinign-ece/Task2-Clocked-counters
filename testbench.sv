@@ -1,59 +1,62 @@
-module tb_sync_up_counter;
+`timescale 1ns / 1ps
 
+module tb_counter;
+
+    // Parameters
     parameter WIDTH = 4;
 
+    // Signals
     reg clk;
     reg rst_n;
     reg enable;
     wire [WIDTH-1:0] count;
 
-    // Instantiate Design Under Test (DUT)
-    sync_up_counter #(.WIDTH(WIDTH)) uut (
+    // Instantiate the Unit Under Test (UUT)
+    counter_register_block uut (
         .clk(clk),
         .rst_n(rst_n),
         .enable(enable),
         .count(count)
     );
 
-    // Generate Clock: 10 time units period
+    // Clock Generation: 10ns period (100 MHz)
     always #5 clk = ~clk;
 
     initial begin
-        // Dump waveform for EPWave
-        $dumpfile("waveform.vcd");
-        $dumpvars(0, tb_sync_up_counter);
-
-        // Initialize signals
+        // Initialize Signals
         clk = 0;
         rst_n = 0;
         enable = 0;
 
-        // Release reset after 20 time units
-        #20 rst_n = 1;
+        // Dump waves for EPWave viewer
+        $dumpfile("dump.vcd");
+        $dumpvars(0, tb_counter);
 
-        // Enable counting
-        #10 enable = 1;
+        // Hold reset active for 20ns
+        #20;
+        rst_n = 1; // Release reset
+
+        // Test Case 1: Enable high, let counter increment
+        #10;
+        enable = 1;
         #100;
 
-        // Disable counting briefly
+        // Test Case 2: Disable counter (hold value)
         enable = 0;
         #30;
 
-        // Re-enable counting
+        // Test Case 3: Re-enable counter
         enable = 1;
-        #60;
+        #80;
 
-        // Apply reset mid-operation
+        // Test Case 4: Assert synchronous reset midway
         rst_n = 0;
         #20;
         rst_n = 1;
-        #40;
 
+        // Run a bit longer and finish simulation
+        #50;
         $finish;
-    end
-
-    initial begin
-        $monitor("Time=%0t | rst_n=%0b enable=%0b count=%0d", $time, rst_n, enable, count);
     end
 
 endmodule
