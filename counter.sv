@@ -1,9 +1,9 @@
-module sync_up_counter #(
+module counter_register_block #(
     parameter WIDTH = 4
 )(
     input wire clk,
-    input wire rst_n,      // Active-low synchronous reset
-    input wire enable,     // Count enable
+    input wire rst_n,      // Synchronous active-low reset
+    input wire enable,     // Count enable control
     output reg [WIDTH-1:0] count
 );
 
