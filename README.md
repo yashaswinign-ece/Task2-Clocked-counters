@@ -1,21 +1,21 @@
 # Task 2: Clocked Counters and Registers
 
 ## Overview
-Designed, simulated, and verified an N-bit parameterized synchronous up-counter using Verilog HDL. The design incorporates an active-low synchronous reset (`rst_n`) and a count enable signal (`enable`).
+Designed, simulated, and verified a synchronous clocked counter and register block using Verilog HDL. The module incorporates an active-low synchronous reset (`rst_n`) and a count enable signal (`enable`).
 
 ## Features & Verification
 * **Synchronous Reset:** Resets counter value to 0 on the positive clock edge when `rst_n` is low.
-* **Enable Control:** Increments counter only when `enable` is high; holds value when low.
-* **Overflow Handling:** Automatically rolls over to 0 upon reaching maximum value.
+* **Enable Control:** Increments counter value only when `enable` is high; holds current state when low.
+* **Boundary & Rollover Testing:** Verified normal counting behavior, reset assertion, and maximum-value rollover.
 
 ## Repository Contents
-* `counter.sv` - RTL implementation of the parameterized synchronous counter.
-* `tb_counter.sv` - Testbench applying clock generation, reset sequence, and enable control.
-* `counter_waveform.png` - EPWave output screenshot verifying counting logic.
+* `counter.sv` - RTL source code for the clocked counter module.
+* `testbench.sv` - Testbench applying clock generation, reset sequence, and enable stimulus.
+* `Screenshot 2026-11-09 200527.png` - Simulation waveform proof verifying signal behavior.
 
 ## Tools Used
 * **Simulator:** Icarus Verilog (via EDA Playground)
 * **Waveform Viewer:** EPWave
 
 ## Waveform Proof
-![Counter Waveform](counter_waveform.png)
+![Counter Waveform](Screenshot 2026-11-09 200527.png)
